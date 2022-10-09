@@ -1,4 +1,4 @@
-package br.com.letscode.moviesbattle.usecase.battle;
+package br.com.letscode.moviesbattle.usecase.battle.start;
 
 import lombok.Builder;
 import lombok.Data;

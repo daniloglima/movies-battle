@@ -1,4 +1,4 @@
-package br.com.letscode.moviesbattle.usecase.battle;
+package br.com.letscode.moviesbattle.usecase.battle.start;
 
 public class AlreadyStartedBattleException extends RuntimeException {
 

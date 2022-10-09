@@ -1,6 +1,9 @@
 package br.com.letscode.moviesbattle.domain.account;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Optional;
+import java.util.Random;
 
 public class AccountRepositoryInMemory implements AccountRepository {
 

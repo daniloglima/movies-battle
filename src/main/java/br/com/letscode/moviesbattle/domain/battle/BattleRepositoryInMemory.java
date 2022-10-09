@@ -2,6 +2,7 @@ package br.com.letscode.moviesbattle.domain.battle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Optional;
 import java.util.Random;
 
 public class BattleRepositoryInMemory implements BattleRepository {
@@ -26,5 +27,28 @@ public class BattleRepositoryInMemory implements BattleRepository {
         return database.stream()
                 .filter(entry -> entry.getUserId().equals(userId))
                 .anyMatch(TableBattle::getOpened);
+    }
+
+    @Override
+    public Optional<TableBattle> findOpenedBattleByUserId(long userId) {
+        return database.stream()
+                .filter(entry -> entry.getUserId().equals(userId))
+                .filter(entry -> entry.getOpened() == true)
+                .findFirst();
+    }
+
+    @Override
+    public void updateOpened(long userId, boolean opened) {
+
+        for (int index = 0; index < database.size(); index++) {
+
+            var entry = database.get(index);
+            if(entry.getUserId() == userId && entry.getOpened() == true){
+                entry.setOpened(false);
+                database.set(index, entry);
+            }
+
+        }
+
     }
 }
