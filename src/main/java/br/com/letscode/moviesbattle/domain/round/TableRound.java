@@ -28,4 +28,6 @@ public class TableRound {
 
     private Boolean answered;
 
+    private Boolean rightAnswer;
+
 }

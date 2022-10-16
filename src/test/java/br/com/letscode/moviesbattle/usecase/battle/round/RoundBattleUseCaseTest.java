@@ -24,30 +24,39 @@ class RoundBattleUseCaseTest {
 
         assertThatThrownBy(() -> usecase.handle(input)).isInstanceOf(BattleNotStartedException.class);
     }
-
     @Test
-    public void deve_validar_se_existe_questoes_disponiveis() {
+    public void deve_validar_quantidade_maxima_de_erros() {
 
+        var roundRepository = new RoundRepositoryInMemory();
         var battleRepository = new BattleRepositoryInMemory();
+        var moviesRepository = new MoviesRepositoryInMemory();
 
         var usecase = new RoundBattleUseCase(
-                new RoundRepositoryInMemory(),
+                roundRepository,
                 battleRepository,
-                new MoviesRepositoryInMemory()
+                moviesRepository
         );
 
-        var userId = 10L;
+        var userId = 1L;
         battleRepository.save(userId, true);
 
+        moviesRepository.save("title a", 5);
+        moviesRepository.save("title b", 6);
+        moviesRepository.save("title c", 7);
+        moviesRepository.save("title d", 8);
+
+        var battleId = 1L;
+        roundRepository.save(battleId, 1, 2, true, false);
+        roundRepository.save(battleId, 3, 4, true, false);
+        roundRepository.save(battleId, 5, 6, true, false);
+
         var input = RoundBattleInput.builder()
                 .userId(userId)
                 .build();
-
         assertThatThrownBy(() -> usecase.handle(input)).isInstanceOf(NoMoreQuestionsAvaliable.class);
     }
-
     @Test
-    public void deve_validar_se_todas_as_questoes_ja_foram_respondidas() {
+    public void deve_criar_um_novo_round() {
 
         var roundRepository = new RoundRepositoryInMemory();
         var battleRepository = new BattleRepositoryInMemory();
@@ -59,26 +68,33 @@ class RoundBattleUseCaseTest {
                 moviesRepository
         );
 
-        var userId = 10L;
-        var battle = battleRepository.save(userId, true);
+        var userId = 1L;
+        battleRepository.save(userId, true);
 
-        roundRepository.save(battle.getId(), 1, 2, true);
-        roundRepository.save(battle.getId(), 3, 4, true);
-
-        moviesRepository.save(1, "A", 0);
-        moviesRepository.save(2, "B", 0);
-        moviesRepository.save(3, "C", 0);
-        moviesRepository.save(4, "D", 0);
+        moviesRepository.save("title a", 5);
+        moviesRepository.save("title b", 6);
+        moviesRepository.save("title c", 7);
+        moviesRepository.save("title d", 8);
 
         var input = RoundBattleInput.builder()
                 .userId(userId)
                 .build();
 
-        assertThatThrownBy(() -> usecase.handle(input)).isInstanceOf(NoMoreQuestionsAvaliable.class);
-    }
+        var output = usecase.handle(input);
 
+        assertThat(output).isNotNull();
+
+        var battleId = 1L;
+        var rounds = roundRepository.findByBattleId(battleId);
+        assertThat(rounds).isNotNull();
+        assertThat(rounds).hasSize(1);
+
+        var round = rounds.get(0);
+        assertThat(round.getItemAId()).isNotEqualTo(round.getItemBId());
+
+    }
     @Test
-    public void deve_retornar_o_proximo_round() {
+    public void deve_retornar_mesmo_round() {
 
         var roundRepository = new RoundRepositoryInMemory();
         var battleRepository = new BattleRepositoryInMemory();
@@ -90,26 +106,26 @@ class RoundBattleUseCaseTest {
                 moviesRepository
         );
 
-        var userId = 10L;
-        var battle = battleRepository.save(userId, true);
+        var userId = 1L;
+        battleRepository.save(userId, true);
 
-        roundRepository.save(battle.getId(), 1, 2, false);
-        roundRepository.save(battle.getId(), 3, 4, false);
-        roundRepository.save(battle.getId(), 5, 5, false);
-
-        moviesRepository.save(1, "A", 0);
-        moviesRepository.save(2, "B", 0);
-        moviesRepository.save(3, "C", 0);
-        moviesRepository.save(4, "D", 0);
-        moviesRepository.save(5, "E", 0);
-        moviesRepository.save(6, "F", 0);
+        moviesRepository.save("title a", 5);
+        moviesRepository.save("title b", 6);
+        moviesRepository.save("title c", 7);
+        moviesRepository.save("title d", 8);
 
         var input = RoundBattleInput.builder()
                 .userId(userId)
                 .build();
 
-        var result = usecase.handle(input);
-        assertThat(result).isNotNull();
+        var firstHandle = usecase.handle(input);
+
+        for (int i = 0; i < 10; i++) {
+            var atualHandle = usecase.handle(input);
+            assertThat(atualHandle).isEqualTo(firstHandle);
+        }
 
     }
+
+
 }

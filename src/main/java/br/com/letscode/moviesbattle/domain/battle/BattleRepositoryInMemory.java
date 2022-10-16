@@ -3,7 +3,6 @@ package br.com.letscode.moviesbattle.domain.battle;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.Random;
 
 public class BattleRepositoryInMemory implements BattleRepository {
 
@@ -11,10 +10,12 @@ public class BattleRepositoryInMemory implements BattleRepository {
 
     @Override
     public TableBattle save(long userId, boolean opened) {
+        var id = database.size() + 1L;
+
         var table = TableBattle.builder()
                 .opened(opened)
                 .userId(userId)
-                .id(new Random().nextLong())
+                .id(id)
                 .build();
 
         database.add(table);

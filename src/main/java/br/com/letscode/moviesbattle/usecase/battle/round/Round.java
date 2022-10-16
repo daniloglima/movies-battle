@@ -17,11 +17,15 @@ public class Round {
 
     private long battleId;
     private List<Item> items;
-    private boolean finished;
+
+    private boolean answered;
+
+    private boolean rightAnswer;
 
     public static Round of(TableRound table){
         return Round.builder()
-                .finished(table.getAnswered())
+                .answered(table.getAnswered())
+                .rightAnswer(table.getRightAnswer())
                 .battleId(table.getBattleId())
                 .items(buildItems(table))
                 .build();
@@ -32,18 +36,15 @@ public class Round {
                 Item.of(table.getItemBId())
         );
     }
-    public boolean isPendent(){
-        return !this.finished;
-    }
-
     public Round hydrateItems(Function<Long, Item> function){
         var hydrated = items.stream()
                 .map((entry) -> function.apply(entry.getId()))
                 .toList();
 
         return Round.builder()
-                .battleId(battleId)
-                .finished(finished)
+                .battleId(this.battleId)
+                .answered(this.answered)
+                .rightAnswer(this.rightAnswer)
                 .items(hydrated)
                 .build();
     }

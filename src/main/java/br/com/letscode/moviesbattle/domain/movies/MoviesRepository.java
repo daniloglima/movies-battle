@@ -4,7 +4,7 @@ import java.util.Optional;
 
 public interface MoviesRepository {
 
-    TableMovies save(long id, String title, long imdbRating);
+    TableMovies save(String title, long imdbRating);
     Optional<TableMovies> findById(long id);
-
+    long getMaxId();
 }
