@@ -1,5 +1,6 @@
 package br.com.letscode.moviesbattle.domain.battle;
 
+import java.util.List;
 import java.util.Optional;
 
 public interface BattleRepository {
@@ -11,4 +12,6 @@ public interface BattleRepository {
     Optional<TableBattle> findOpenedBattleByUserId(long userId);
 
     void updateOpened(long userId, boolean opened);
+
+    List<Long> findIdEndedBy(long UserId);
 }

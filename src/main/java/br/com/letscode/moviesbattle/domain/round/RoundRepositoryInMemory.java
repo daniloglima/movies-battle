@@ -77,6 +77,17 @@ public class RoundRepositoryInMemory implements RoundRepository {
     }
 
     @Override
+    public Long countRightsBy(List<Long> battleIds) {
+        return battleIds.stream()
+                .map(battleId -> database.stream()
+                        .filter(entry -> Objects.nonNull(entry.getRightAnswer()))
+                        .filter(entry -> entry.getBattleId() == battleId)
+                        .filter(entry -> entry.getRightAnswer() == true)
+                        .count()
+                ).mapToLong(Long::longValue).sum();
+    }
+
+    @Override
     public List<TableRound> findByBattleId(Long battleId) {
         return database.stream()
                 .filter(entry -> entry.getBattleId().equals(battleId))

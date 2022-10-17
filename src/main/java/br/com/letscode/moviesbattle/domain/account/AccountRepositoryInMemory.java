@@ -15,13 +15,21 @@ public class AccountRepositoryInMemory implements AccountRepository {
     }
 
     @Override
-    public void save(String identity, String password) {
+    public TableAccount save(String identity, String password) {
+        var id = database.size() + 1L;
         var account = TableAccount.builder()
-                .id(new Random().nextLong())
+                .id(id)
                 .identity(identity)
                 .password(password)
                 .build();
 
         database.add(account);
+
+        return account;
+    }
+
+    @Override
+    public List<TableAccount> findAll() {
+        return this.database;
     }
 }

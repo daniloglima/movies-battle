@@ -2,7 +2,9 @@ package br.com.letscode.moviesbattle.domain.battle;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 public class BattleRepositoryInMemory implements BattleRepository {
 
@@ -33,6 +35,7 @@ public class BattleRepositoryInMemory implements BattleRepository {
     @Override
     public Optional<TableBattle> findOpenedBattleByUserId(long userId) {
         return database.stream()
+                .filter(entry -> Objects.nonNull(entry.getOpened()))
                 .filter(entry -> entry.getUserId().equals(userId))
                 .filter(entry -> entry.getOpened() == true)
                 .findFirst();
@@ -51,5 +54,15 @@ public class BattleRepositoryInMemory implements BattleRepository {
 
         }
 
+    }
+
+    @Override
+    public List<Long> findIdEndedBy(long userId) {
+        return database.stream()
+                .filter(entry -> Objects.nonNull(entry.getOpened()))
+                .filter(entry -> entry.getUserId() == userId)
+                .filter(entry -> entry.getOpened() == false)
+                .map(TableBattle::getId)
+                .toList();
     }
 }

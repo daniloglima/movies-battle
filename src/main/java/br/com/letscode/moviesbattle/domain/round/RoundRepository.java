@@ -9,6 +9,7 @@ public interface RoundRepository {
     long countWrongByBattleId(long battleId);
     Optional<TableRound> findOpenedRoundBy(long battleId);
     void answerById(long roundId, boolean rightAnswer, long rightAnswerId);
-
     long countRightVotesBy(long movieId);
+    Long countRightsBy(List<Long> battleIds);
+
 }
