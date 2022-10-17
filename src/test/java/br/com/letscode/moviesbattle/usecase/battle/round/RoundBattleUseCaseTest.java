@@ -3,6 +3,7 @@ package br.com.letscode.moviesbattle.usecase.battle.round;
 import br.com.letscode.moviesbattle.domain.battle.BattleRepositoryInMemory;
 import br.com.letscode.moviesbattle.domain.movies.MoviesRepositoryInMemory;
 import br.com.letscode.moviesbattle.domain.round.RoundRepositoryInMemory;
+import br.com.letscode.moviesbattle.domain.round.TableRound;
 import br.com.letscode.moviesbattle.usecase.battle.end.BattleNotStartedException;
 import org.junit.jupiter.api.Test;
 
@@ -46,9 +47,16 @@ class RoundBattleUseCaseTest {
         moviesRepository.save("title d", 8);
 
         var battleId = 1L;
-        roundRepository.save(battleId, 1, 2, true, false);
-        roundRepository.save(battleId, 3, 4, true, false);
-        roundRepository.save(battleId, 5, 6, true, false);
+        TableRound round;
+
+        round = roundRepository.save(battleId, 1, 2);
+        roundRepository.answerById(round.getId(), false, 1);
+
+        round = roundRepository.save(battleId, 3, 4);
+        roundRepository.answerById(round.getId(), false, 3);
+
+        round = roundRepository.save(battleId, 5, 6);
+        roundRepository.answerById(round.getId(), false, 5);
 
         var input = RoundBattleInput.builder()
                 .userId(userId)

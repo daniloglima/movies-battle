@@ -44,9 +44,7 @@ public class RoundBattleUseCase {
         TableRound saved = roundRepository.save(
                 battleId,
                 firstMovieId,
-                secondMovieId,
-                false,
-                false
+                secondMovieId
         );
 
         return Round.of(saved);

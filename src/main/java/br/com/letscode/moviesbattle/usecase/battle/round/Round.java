@@ -14,18 +14,17 @@ import java.util.function.Function;
 @NoArgsConstructor
 @AllArgsConstructor
 public class Round {
-
     private long battleId;
     private List<Item> items;
-
     private boolean answered;
-
     private boolean rightAnswer;
-
     public static Round of(TableRound table){
+
+        var isRight = (table.getRightAnswer() != null && table.getRightAnswer());
+
         return Round.builder()
                 .answered(table.getAnswered())
-                .rightAnswer(table.getRightAnswer())
+                .rightAnswer(isRight)
                 .battleId(table.getBattleId())
                 .items(buildItems(table))
                 .build();

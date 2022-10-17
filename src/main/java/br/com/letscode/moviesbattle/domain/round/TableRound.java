@@ -17,7 +17,6 @@ public class TableRound {
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
 
-    @Column(name = "battle_id")
     private Long battleId;
 
     @Column(name = "item_a_id")
@@ -29,5 +28,7 @@ public class TableRound {
     private Boolean answered;
 
     private Boolean rightAnswer;
+
+    private Long rightAnswerId;
 
 }
