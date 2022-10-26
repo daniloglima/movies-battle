@@ -19,7 +19,7 @@ public class StartBattleUseCaseTest {
         var output = usecase.handle(input);
 
         assertThat(output).isNotNull();
-        assertThat(output.getId()).isNotNull();
+        assertThat(output.isSuccess()).isTrue();
     }
 
     @Test

@@ -3,8 +3,10 @@ package br.com.letscode.moviesbattle.usecase.battle.vote;
 import br.com.letscode.moviesbattle.domain.battle.BattleRepository;
 import br.com.letscode.moviesbattle.domain.movies.MoviesRepository;
 import br.com.letscode.moviesbattle.domain.round.RoundRepository;
+import br.com.letscode.moviesbattle.domain.round.TableRound;
 import br.com.letscode.moviesbattle.usecase.battle.end.BattleNotStartedException;
-
+import org.springframework.stereotype.Service;
+@Service
 public class VoteInBattleUseCase {
     private final MoviesRepository moviesRepository;
     private final RoundRepository roundRepository;
@@ -19,21 +21,28 @@ public class VoteInBattleUseCase {
     public VoteInBattleOutput handle(VoteInBattleInput input) {
 
         var battleId = getBattleIdBy(input.getUserId());
-        var roundId = getRoundIdBy(battleId);
+        var round = getRoundBy(battleId);
 
-        var other = getMovie(input.getOtherId());
-        var answer = getMovie(input.getAnswerId());
+        var firstOption = round.getItemAId();
+        var secondOption = round.getItemAId();
+
+        if(input.getAnswerId() == round.getItemAId()){
+            secondOption = round.getItemBId();
+        } else {
+            firstOption = round.getItemBId();
+        }
+
+        var other = getMovie(secondOption);
+        var answer = getMovie(firstOption);
 
         var right = answer.checkAnswer(other);
-        roundRepository.answerById(roundId, right.isRight(), right.getId());
+        roundRepository.answerById(round.getId(), right.isRight(), right.getId());
 
         return VoteInBattleOutput.withSuccess();
     }
-
-    private long getRoundIdBy(long battleId) {
+    private TableRound getRoundBy(long battleId) {
         var roundBy = roundRepository.findOpenedRoundBy(battleId);
-        var table = roundBy.orElseThrow(RoundNotStartedException::new);
-        return table.getId();
+        return roundBy.orElseThrow(RoundNotStartedException::new);
     }
 
     private long getBattleIdBy(long userId) {

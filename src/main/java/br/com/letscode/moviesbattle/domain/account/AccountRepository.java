@@ -5,8 +5,6 @@ import java.util.Optional;
 
 public interface AccountRepository {
     Optional<TableAccount> findByIdentity(String identity);
-
     TableAccount save(String identity, String password);
-
     List<TableAccount> findAll();
 }

@@ -2,10 +2,10 @@ package br.com.letscode.moviesbattle.usecase.raking;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
-@Data
-@Builder
-class Result {
+@Getter @Builder
+public class Result {
 
     private long userId;
 
@@ -16,7 +16,7 @@ class Result {
         return Result.builder()
                 .userId(rating.getUserId())
                 .userName(rating.getUserName())
-                .score(rating.getRoundCount())
+                .score(rating.getScore())
                 .build();
     }
 

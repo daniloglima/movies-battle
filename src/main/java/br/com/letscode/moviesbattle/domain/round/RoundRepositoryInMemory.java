@@ -5,7 +5,6 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.stream.Collectors;
-
 public class RoundRepositoryInMemory implements RoundRepository {
 
     private List<TableRound> database = new ArrayList<>();
@@ -77,20 +76,16 @@ public class RoundRepositoryInMemory implements RoundRepository {
     }
 
     @Override
-    public Long countRightsBy(List<Long> battleIds) {
-        return battleIds.stream()
-                .map(battleId -> database.stream()
-                        .filter(entry -> Objects.nonNull(entry.getRightAnswer()))
-                        .filter(entry -> entry.getBattleId() == battleId)
-                        .filter(entry -> entry.getRightAnswer() == true)
-                        .count()
-                ).mapToLong(Long::longValue).sum();
-    }
-
-    @Override
     public List<TableRound> findByBattleId(Long battleId) {
         return database.stream()
                 .filter(entry -> entry.getBattleId().equals(battleId))
+                .collect(Collectors.toList());
+    }
+
+    @Override
+    public List<TableRound> findByBattleIds(List<Long> battleIds) {
+        return database.stream()
+                .filter(entry -> battleIds.contains(entry.getBattleId()))
                 .collect(Collectors.toList());
     }
 

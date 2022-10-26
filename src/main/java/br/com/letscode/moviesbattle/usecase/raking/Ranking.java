@@ -1,46 +1,72 @@
 package br.com.letscode.moviesbattle.usecase.raking;
 
 import br.com.letscode.moviesbattle.domain.account.TableAccount;
+import br.com.letscode.moviesbattle.domain.round.TableRound;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
 import java.util.List;
 import java.util.function.Function;
 
-@Data
-@Builder
+@Getter @Builder
 class Ranking {
     private long userId;
     private String userName;
     private List<Long> battleIds;
-    private long roundCount;
+    private long totalRounds;
+    private long totalRights;
+    private long score ;
 
-    public static Ranking hydrateWith(TableAccount account) {
+    public static Ranking transform(TableAccount account) {
         return Ranking.builder()
                 .userId(account.getId())
                 .userName(account.getIdentity())
-                .battleIds(List.of())
                 .build();
     }
 
     public Ranking hydrateBattlesIds(Function<Long, List<Long>> hydrate) {
-        var battleIds = hydrate.apply(this.userId);
+        var battleIds = hydrate.apply(getUserId());
 
         return Ranking.builder()
-                .userId(this.userId)
-                .userName(this.userName)
+                .userId(getUserId())
+                .userName(getUserName())
                 .battleIds(battleIds)
                 .build();
     }
 
-    public Ranking hydrateRounds(Function<List<Long>, Long> hydrate) {
-        var count = hydrate.apply(this.battleIds);
+    public Ranking hydrateRounds(Function<List<Long>, List<TableRound>> hydrate) {
+        var rounds = hydrate.apply(getBattleIds());
+
+        var total = rounds.size();
+        var rights = rounds.stream()
+                .filter(TableRound::getRightAnswer)
+                .count();
 
         return Ranking.builder()
-                .userId(this.userId)
-                .userName(this.userName)
-                .battleIds(battleIds)
-                .roundCount(this.roundCount + count)
+                .userId(getUserId())
+                .userName(getUserName())
+                .totalRounds(total)
+                .totalRights(rights)
+                .build();
+    }
+
+    public Ranking calculateScore() {
+
+        var score = 0L;
+
+        if(getTotalRounds() > 0 && getTotalRights() > 0){
+            long percentage = ((getTotalRights() * 100) / getTotalRounds());
+            score = getTotalRounds() * percentage;
+        }
+
+        return Ranking.builder()
+                .userId(getUserId())
+                .userName(getUserName())
+                .battleIds(getBattleIds())
+                .totalRounds(getTotalRounds())
+                .totalRights(getTotalRights())
+                .score(score)
                 .build();
     }
 }

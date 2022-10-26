@@ -3,14 +3,15 @@ package br.com.letscode.moviesbattle.usecase.battle.vote;
 import br.com.letscode.moviesbattle.domain.movies.TableMovies;
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
-@Data @Builder
+@Getter
+@Builder
 public class Movie {
 
     private long id;
     private long score;
     private long votes;
-
     private boolean right;
 
     public static Movie of(TableMovies table, long votes) {
@@ -22,7 +23,7 @@ public class Movie {
     }
 
     public long calculateRating() {
-        return (this.score * this.votes);
+        return (getScore() * getVotes());
     }
 
     public Movie checkAnswer(Movie other) {

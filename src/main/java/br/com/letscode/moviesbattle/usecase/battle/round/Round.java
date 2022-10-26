@@ -1,17 +1,13 @@
 package br.com.letscode.moviesbattle.usecase.battle.round;
 
 import br.com.letscode.moviesbattle.domain.round.TableRound;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
 
-@Builder @Data
-@NoArgsConstructor
+@Builder @Getter
 @AllArgsConstructor
 public class Round {
     private long battleId;
@@ -36,14 +32,14 @@ public class Round {
         );
     }
     public Round hydrateItems(Function<Long, Item> function){
-        var hydrated = items.stream()
+        var hydrated = getItems().stream()
                 .map((entry) -> function.apply(entry.getId()))
                 .toList();
 
         return Round.builder()
-                .battleId(this.battleId)
-                .answered(this.answered)
-                .rightAnswer(this.rightAnswer)
+                .battleId(getBattleId())
+                .answered(isAnswered())
+                .rightAnswer(isRightAnswer())
                 .items(hydrated)
                 .build();
     }

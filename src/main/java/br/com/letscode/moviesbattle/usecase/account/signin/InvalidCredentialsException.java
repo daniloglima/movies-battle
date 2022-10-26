@@ -1,8 +1,14 @@
 package br.com.letscode.moviesbattle.usecase.account.signin;
 
-public class InvalidCredentialsException extends RuntimeException {
+import br.com.letscode.moviesbattle.usecase.commons.ApplicationException;
+
+public class InvalidCredentialsException extends ApplicationException {
 
     public InvalidCredentialsException() {
+        this("Invalid credentials");
     }
 
+    public InvalidCredentialsException(String message) {
+        super(message);
+    }
 }

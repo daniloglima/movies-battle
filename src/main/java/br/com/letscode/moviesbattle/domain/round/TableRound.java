@@ -1,20 +1,17 @@
 package br.com.letscode.moviesbattle.domain.round;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 
 @Entity(name = "round")
-@Data @Builder
+@Getter @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 public class TableRound {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private Long battleId;

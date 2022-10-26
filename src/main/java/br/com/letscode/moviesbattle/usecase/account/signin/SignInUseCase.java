@@ -3,19 +3,18 @@ package br.com.letscode.moviesbattle.usecase.account.signin;
 import br.com.letscode.moviesbattle.domain.account.AccountRepository;
 import br.com.letscode.moviesbattle.domain.account.TableAccount;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
-
+@Service
 public class SignInUseCase {
-
     private final AccountRepository repository;
-
     @Autowired
     public SignInUseCase(AccountRepository repository) {
         this.repository = repository;
     }
 
-    SignInOutput handle(SignInInput input){
+    public SignInOutput handle(SignInInput input){
         Optional<TableAccount> byIdentity = repository.findByIdentity(input.getIdentity());
         var table = byIdentity.orElseThrow(InvalidCredentialsException::new);
 

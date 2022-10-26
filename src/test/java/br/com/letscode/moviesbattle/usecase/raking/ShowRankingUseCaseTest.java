@@ -119,7 +119,6 @@ public class ShowRankingUseCaseTest {
 
         var first = output.getResult().get(0);
 
-        assertThat(first.getScore()).isEqualTo(2);
         assertThat(first.getUserId()).isEqualTo(userA.getId());
         assertThat(first.getUserName()).isEqualTo(userA.getIdentity());
     }

@@ -1,9 +1,6 @@
 package br.com.letscode.moviesbattle.domain.account;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -11,12 +8,13 @@ import javax.persistence.GenerationType;
 import javax.persistence.Id;
 
 @Entity(name = "account")
-@Data @Builder
-@NoArgsConstructor @AllArgsConstructor
+@Getter @Builder
+@NoArgsConstructor
+@AllArgsConstructor
 public class TableAccount {
 
     @Id
-    @GeneratedValue(strategy = GenerationType.AUTO)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
     private String identity;

@@ -23,7 +23,6 @@ public class VoteInBattleUseCaseTest {
         var input =  VoteInBattleInput.builder()
                 .userId(1L)
                 .answerId(1L)
-                .otherId(2L)
                 .build();
 
         assertThatThrownBy(() -> usecase.handle(input)).isInstanceOf(BattleNotStartedException.class);
@@ -49,7 +48,6 @@ public class VoteInBattleUseCaseTest {
        var input =  VoteInBattleInput.builder()
                 .userId(1L)
                 .answerId(1L)
-                .otherId(2L)
                 .build();
 
         assertThatThrownBy(() -> usecase.handle(input)).isInstanceOf(RoundNotStartedException.class);
@@ -74,8 +72,8 @@ public class VoteInBattleUseCaseTest {
         roundRepository.save(battleId, 99, 99);
 
         var input =  VoteInBattleInput.builder()
-                .userId(1L).answerId(1L)
-                .otherId(2L)
+                .userId(1L)
+                .answerId(1L)
                 .build();
 
         assertThatThrownBy(() -> usecase.handle(input)).isInstanceOf(InvalidAnswerException.class);
@@ -115,7 +113,7 @@ public class VoteInBattleUseCaseTest {
 
         var input =  VoteInBattleInput.builder()
                 .userId(1L)
-                .answerId(1L).otherId(2L)
+                .answerId(1L)
                 .build();
 
         VoteInBattleOutput output = usecase.handle(input);

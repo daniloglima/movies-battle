@@ -5,7 +5,9 @@ import br.com.letscode.moviesbattle.domain.movies.MoviesRepository;
 import br.com.letscode.moviesbattle.domain.round.RoundRepository;
 import br.com.letscode.moviesbattle.domain.round.TableRound;
 import br.com.letscode.moviesbattle.usecase.battle.end.BattleNotStartedException;
+import org.springframework.stereotype.Service;
 
+@Service
 public class RoundBattleUseCase {
     private final RoundRepository roundRepository;
     private final BattleRepository battleRepository;
@@ -22,7 +24,7 @@ public class RoundBattleUseCase {
         var battle = hasOpened.orElseThrow(BattleNotStartedException::new);
 
         var count = roundRepository.countWrongByBattleId(battle.getId());
-        if(count >= NUMBER_OF_ATTEMPTS_ALLOWED) throw new NoMoreQuestionsAvaliable();
+        if(count >= NUMBER_OF_ATTEMPTS_ALLOWED) throw new NoMoreQuestionsAvailable();
 
         Round next = getNextRound(battle.getId());
         return RoundBattleOutput.WithSuccess(hydrate(next).getItems());

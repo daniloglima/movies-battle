@@ -4,10 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.stream.Collectors;
-
 public class BattleRepositoryInMemory implements BattleRepository {
-
     private List<TableBattle> database = new ArrayList<>();
 
     @Override
@@ -37,7 +34,7 @@ public class BattleRepositoryInMemory implements BattleRepository {
         return database.stream()
                 .filter(entry -> Objects.nonNull(entry.getOpened()))
                 .filter(entry -> entry.getUserId().equals(userId))
-                .filter(entry -> entry.getOpened() == true)
+                .filter(entry -> entry.getOpened())
                 .findFirst();
     }
 
@@ -47,9 +44,15 @@ public class BattleRepositoryInMemory implements BattleRepository {
         for (int index = 0; index < database.size(); index++) {
 
             var entry = database.get(index);
-            if(entry.getUserId() == userId && entry.getOpened() == true){
-                entry.setOpened(false);
-                database.set(index, entry);
+            if(entry.getUserId() == userId && entry.getOpened()){
+
+                var newer = TableBattle.builder()
+                        .id(entry.getId())
+                        .userId(entry.getUserId())
+                        .opened(false)
+                        .build();
+
+                database.set(index, newer);
             }
 
         }

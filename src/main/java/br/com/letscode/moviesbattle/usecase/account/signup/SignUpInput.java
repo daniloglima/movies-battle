@@ -2,18 +2,13 @@ package br.com.letscode.moviesbattle.usecase.account.signup;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @Builder
 public class SignUpInput {
 
     private String identity;
     private String password;
-
-
-    public String getPasswordHash(){
-        //TODO APPLY HASH
-        return this.password;
-    }
 
 }

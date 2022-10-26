@@ -61,7 +61,7 @@ class RoundBattleUseCaseTest {
         var input = RoundBattleInput.builder()
                 .userId(userId)
                 .build();
-        assertThatThrownBy(() -> usecase.handle(input)).isInstanceOf(NoMoreQuestionsAvaliable.class);
+        assertThatThrownBy(() -> usecase.handle(input)).isInstanceOf(NoMoreQuestionsAvailable.class);
     }
     @Test
     public void deve_criar_um_novo_round() {

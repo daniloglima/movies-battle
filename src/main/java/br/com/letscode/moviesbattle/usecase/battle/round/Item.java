@@ -1,14 +1,10 @@
 package br.com.letscode.moviesbattle.usecase.battle.round;
 
 import br.com.letscode.moviesbattle.domain.movies.TableMovies;
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
-@Builder
-@Data
-@NoArgsConstructor
+@Builder @Getter
+@EqualsAndHashCode
 @AllArgsConstructor
 public class Item {
 

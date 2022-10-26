@@ -10,10 +10,14 @@ public class EndBattleUseCaseTest {
 
     @Test
     public void deve_finalizar_uma_nova_batalha(){
-        var usecase = new EndBattleUseCase(new BattleRepositoryInMemory());
+        var repository = new BattleRepositoryInMemory();
+        var usecase = new EndBattleUseCase(repository);
+
+        var userId = 10L;
+        repository.save(userId, true);
 
         var input = EndBattleInput.builder()
-                .userId(10L)
+                .userId(userId)
                 .build();
 
         var output = usecase.handle(input);
@@ -27,12 +31,8 @@ public class EndBattleUseCaseTest {
         var repository = new BattleRepositoryInMemory();
         var usecase = new EndBattleUseCase(repository);
 
-        var userId = 10L;
-
-        repository.save(userId, true);
-
         var input = EndBattleInput.builder()
-                .userId(userId)
+                .userId(10L)
                 .build();
 
         assertThatThrownBy(() -> usecase.handle(input)).isInstanceOf(BattleNotStartedException.class);

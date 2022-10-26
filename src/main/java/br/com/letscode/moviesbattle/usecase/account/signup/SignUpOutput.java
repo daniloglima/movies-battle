@@ -2,8 +2,9 @@ package br.com.letscode.moviesbattle.usecase.account.signup;
 
 import lombok.Builder;
 import lombok.Data;
+import lombok.Getter;
 
-@Data
+@Getter
 @Builder
 public class SignUpOutput {
 

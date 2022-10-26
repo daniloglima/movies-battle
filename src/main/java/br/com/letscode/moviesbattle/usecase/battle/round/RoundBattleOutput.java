@@ -1,12 +1,14 @@
 package br.com.letscode.moviesbattle.usecase.battle.round;
 
+import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
+import lombok.NoArgsConstructor;
 
 import java.util.List;
 
-@Data
-@Builder
+@Data @Builder
+@AllArgsConstructor @NoArgsConstructor
 public class RoundBattleOutput {
 
     private boolean success;
