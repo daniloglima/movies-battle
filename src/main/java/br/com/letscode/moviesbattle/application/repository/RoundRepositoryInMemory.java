@@ -1,4 +1,7 @@
-package br.com.letscode.moviesbattle.domain.round;
+package br.com.letscode.moviesbattle.application.repository;
+
+import br.com.letscode.moviesbattle.domain.round.RoundRepository;
+import br.com.letscode.moviesbattle.domain.round.TableRound;
 
 import java.util.ArrayList;
 import java.util.List;

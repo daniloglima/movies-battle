@@ -1,6 +1,7 @@
 package br.com.letscode.moviesbattle.usecase.raking;
 
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Getter;
 
 import java.util.Comparator;
 import java.util.List;

@@ -1,5 +1,7 @@
-package br.com.letscode.moviesbattle.domain.battle;
+package br.com.letscode.moviesbattle.application.repository;
 
+import br.com.letscode.moviesbattle.domain.battle.BattleRepository;
+import br.com.letscode.moviesbattle.domain.battle.TableBattle;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Modifying;

@@ -1,7 +1,9 @@
 package br.com.letscode.moviesbattle.usecase.battle.round;
 
 import br.com.letscode.moviesbattle.domain.round.TableRound;
-import lombok.*;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
 
 import java.util.Arrays;
 import java.util.List;

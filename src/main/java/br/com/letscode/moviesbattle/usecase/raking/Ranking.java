@@ -3,7 +3,6 @@ package br.com.letscode.moviesbattle.usecase.raking;
 import br.com.letscode.moviesbattle.domain.account.TableAccount;
 import br.com.letscode.moviesbattle.domain.round.TableRound;
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
 import java.util.List;

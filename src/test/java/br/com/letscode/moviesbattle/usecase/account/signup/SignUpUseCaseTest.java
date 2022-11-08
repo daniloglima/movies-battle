@@ -1,6 +1,6 @@
 package br.com.letscode.moviesbattle.usecase.account.signup;
 
-import br.com.letscode.moviesbattle.domain.account.AccountRepositoryInMemory;
+import br.com.letscode.moviesbattle.application.repository.AccountRepositoryInMemory;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;

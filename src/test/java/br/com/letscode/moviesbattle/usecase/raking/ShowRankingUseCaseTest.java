@@ -1,17 +1,14 @@
 package br.com.letscode.moviesbattle.usecase.raking;
 
-import br.com.letscode.moviesbattle.domain.account.AccountRepositoryInMemory;
+import br.com.letscode.moviesbattle.application.repository.AccountRepositoryInMemory;
 import br.com.letscode.moviesbattle.domain.account.TableAccount;
-import br.com.letscode.moviesbattle.domain.battle.BattleRepositoryInMemory;
+import br.com.letscode.moviesbattle.application.repository.BattleRepositoryInMemory;
 import br.com.letscode.moviesbattle.domain.battle.TableBattle;
-import br.com.letscode.moviesbattle.domain.movies.MoviesRepositoryInMemory;
-import br.com.letscode.moviesbattle.domain.round.RoundRepositoryInMemory;
+import br.com.letscode.moviesbattle.application.repository.MoviesRepositoryInMemory;
+import br.com.letscode.moviesbattle.application.repository.RoundRepositoryInMemory;
 import org.junit.jupiter.api.Test;
 
-import java.util.List;
-
 import static org.assertj.core.api.Assertions.assertThat;
-import static org.junit.jupiter.api.Assertions.*;
 
 public class ShowRankingUseCaseTest {
 

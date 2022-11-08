@@ -1,7 +1,6 @@
 package br.com.letscode.moviesbattle.usecase.raking;
 
 import lombok.Builder;
-import lombok.Data;
 import lombok.Getter;
 
 @Getter @Builder

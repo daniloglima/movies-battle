@@ -1,4 +1,7 @@
-package br.com.letscode.moviesbattle.domain.account;
+package br.com.letscode.moviesbattle.application.repository;
+
+import br.com.letscode.moviesbattle.domain.account.AccountRepository;
+import br.com.letscode.moviesbattle.domain.account.TableAccount;
 
 import java.util.ArrayList;
 import java.util.List;
