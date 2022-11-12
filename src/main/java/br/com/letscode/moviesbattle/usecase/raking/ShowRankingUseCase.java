@@ -7,6 +7,8 @@ import br.com.letscode.moviesbattle.domain.round.RoundRepository;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.stream.Collectors;
+
 @Service
 public class ShowRankingUseCase {
     private final RoundRepository roundRepository;
@@ -27,7 +29,7 @@ public class ShowRankingUseCase {
                 .map(ranking -> ranking.hydrateBattlesIds(battleRepository::findIdEndedBy))
                 .map(ranking -> ranking.hydrateRounds(roundRepository::findByBattleIds))
                 .map(Ranking::calculateScore)
-                .toList();
+                .collect(Collectors.toList());
 
         return ShowRakingOutput.of(rankings);
     }

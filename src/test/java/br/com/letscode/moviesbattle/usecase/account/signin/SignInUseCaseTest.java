@@ -1,6 +1,7 @@
 package br.com.letscode.moviesbattle.usecase.account.signin;
 
 import br.com.letscode.moviesbattle.application.repository.AccountRepositoryInMemory;
+import br.com.letscode.moviesbattle.domain.account.AccountRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -10,17 +11,17 @@ public class SignInUseCaseTest {
 
     @Test
     public void deve_efetuar_login(){
-        var repository = new AccountRepositoryInMemory();
-        var usecase = new SignInUseCase(repository);
+        AccountRepository repository = new AccountRepositoryInMemory();
+        SignInUseCase usecase = new SignInUseCase(repository);
 
         repository.save("usuario@email.com", "secret");
 
-        var input = SignInInput.builder()
+        SignInInput input = SignInInput.builder()
                 .identity("usuario@email.com")
                 .password("secret")
                 .build();
 
-        var output = usecase.handle(input);
+        SignInOutput output = usecase.handle(input);
 
         assertThat(output).isNotNull();
 
@@ -31,9 +32,9 @@ public class SignInUseCaseTest {
     @Test
     public void deve_recusar_login_quando_email_nao_for_encontrado(){
 
-        var usecase = new SignInUseCase(new AccountRepositoryInMemory());
+        SignInUseCase usecase = new SignInUseCase(new AccountRepositoryInMemory());
 
-        var input = SignInInput.builder()
+        SignInInput input = SignInInput.builder()
                 .identity("user@email.com")
                 .build();
 
@@ -43,12 +44,12 @@ public class SignInUseCaseTest {
     @Test
     public void deve_recusar_login_quando_senha_nao_for_igual(){
 
-        var repository = new AccountRepositoryInMemory();
-        var usecase = new SignInUseCase(repository);
+        AccountRepository repository = new AccountRepositoryInMemory();
+        SignInUseCase usecase = new SignInUseCase(repository);
 
         repository.save("usuario@email.com", "secret");
 
-        var input = SignInInput.builder()
+        SignInInput input = SignInInput.builder()
                 .identity("usuario@email.com")
                 .password("diferente")
                 .build();

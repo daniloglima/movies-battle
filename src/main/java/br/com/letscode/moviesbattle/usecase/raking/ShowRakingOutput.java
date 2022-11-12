@@ -5,19 +5,27 @@ import lombok.Getter;
 
 import java.util.Comparator;
 import java.util.List;
+import java.util.stream.Collectors;
 
-@Getter
-@AllArgsConstructor
 public class ShowRakingOutput {
 
-    private List<Result> result;
-    public static ShowRakingOutput of(List<Ranking> rankings) {
-        var results = rankings.stream()
-                                       .map(Result::of)
-                                       .sorted(Comparator.comparingLong(Result::getScore))
-                                       .toList();
+    private final List<Result> result;
 
-        return new ShowRakingOutput(results);
+    public ShowRakingOutput(List<Result> result) {
+        this.result = result;
+    }
+
+    public List<Result> getResult() {
+        return result;
+    }
+
+    public static ShowRakingOutput of(List<Ranking> rankings) {
+        List<Result> collect = rankings.stream()
+                .map(Result::of)
+                .sorted(Comparator.comparingLong(Result::getScore))
+                .collect(Collectors.toList());
+
+        return new ShowRakingOutput(collect);
     }
 
 }

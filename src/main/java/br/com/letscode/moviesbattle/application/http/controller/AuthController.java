@@ -40,9 +40,9 @@ public class AuthController extends AbstractController {
     })
     @PostMapping(value = "/auth/signup")
     public ResponseEntity<Void> signUp(@RequestBody SignUpRequest request){
-        var input = SignUpInput.builder()
-                .identity(request.identity())
-                .password(request.password())
+        SignUpInput input = SignUpInput.builder()
+                .identity(request.getIdentity())
+                .password(request.getPassword())
                 .build();
 
         signUpUseCase.handle(input);
@@ -55,14 +55,14 @@ public class AuthController extends AbstractController {
     })
     @PostMapping(value = "/auth/signin")
     public ResponseEntity<SignInResponse> signIn(@RequestBody SignInRequest request){
-        var input = SignInInput.builder()
-                .identity(request.identity())
-                .password(request.password())
+        SignInInput input = SignInInput.builder()
+                .identity(request.getIdentity())
+                .password(request.getPassword())
                 .build();
 
         SignInOutput output = signInUseCase.handle(input);
 
-        var data = new TokenData(output.getId(), output.getIdentity());
+        TokenData data = new TokenData(output.getId(), output.getIdentity());
         String accessToken = tokenProvider.buildWith(data);
 
         return ResponseEntity.ok(SignInResponse.of(accessToken));

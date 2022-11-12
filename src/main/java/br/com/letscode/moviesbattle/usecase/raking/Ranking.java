@@ -25,7 +25,7 @@ class Ranking {
     }
 
     public Ranking hydrateBattlesIds(Function<Long, List<Long>> hydrate) {
-        var battleIds = hydrate.apply(getUserId());
+        List<Long> battleIds = hydrate.apply(getUserId());
 
         return Ranking.builder()
                 .userId(getUserId())
@@ -35,10 +35,10 @@ class Ranking {
     }
 
     public Ranking hydrateRounds(Function<List<Long>, List<TableRound>> hydrate) {
-        var rounds = hydrate.apply(getBattleIds());
+        List<TableRound> rounds = hydrate.apply(getBattleIds());
 
-        var total = rounds.size();
-        var rights = rounds.stream()
+        long total = rounds.size();
+        long rights = rounds.stream()
                 .filter(TableRound::getRightAnswer)
                 .count();
 
@@ -52,7 +52,7 @@ class Ranking {
 
     public Ranking calculateScore() {
 
-        var score = 0L;
+        long score = 0L;
 
         if(getTotalRounds() > 0 && getTotalRights() > 0){
             long percentage = ((getTotalRights() * 100) / getTotalRounds());

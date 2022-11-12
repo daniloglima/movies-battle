@@ -1,11 +1,15 @@
 package br.com.letscode.moviesbattle.usecase.raking;
 
 import br.com.letscode.moviesbattle.application.repository.AccountRepositoryInMemory;
+import br.com.letscode.moviesbattle.domain.account.AccountRepository;
 import br.com.letscode.moviesbattle.domain.account.TableAccount;
 import br.com.letscode.moviesbattle.application.repository.BattleRepositoryInMemory;
+import br.com.letscode.moviesbattle.domain.battle.BattleRepository;
 import br.com.letscode.moviesbattle.domain.battle.TableBattle;
 import br.com.letscode.moviesbattle.application.repository.MoviesRepositoryInMemory;
 import br.com.letscode.moviesbattle.application.repository.RoundRepositoryInMemory;
+import br.com.letscode.moviesbattle.domain.movies.MoviesRepository;
+import br.com.letscode.moviesbattle.domain.round.RoundRepository;
 import org.junit.jupiter.api.Test;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -15,25 +19,25 @@ public class ShowRankingUseCaseTest {
     @Test
     public void deve_validar_ranking_sem_contas_de_usuario(){
 
-        var usecase = new ShowRankingUseCase(
+        ShowRankingUseCase usecase = new ShowRankingUseCase(
                 new RoundRepositoryInMemory(),
                 new BattleRepositoryInMemory(),
                 new AccountRepositoryInMemory()
         );
 
 
-        var output = usecase.handle();
+        ShowRakingOutput output = usecase.handle();
         assertThat(output).isNotNull();
         assertThat(output.getResult()).isEmpty();
     }
 
     @Test
     public void deve_validar_ranking_sem_batalhas(){
-        var roundRepository = new RoundRepositoryInMemory();
-        var battleRepository = new BattleRepositoryInMemory();
-        var accountRepository = new AccountRepositoryInMemory();
+        RoundRepository roundRepository = new RoundRepositoryInMemory();
+        BattleRepository battleRepository = new BattleRepositoryInMemory();
+        AccountRepository accountRepository = new AccountRepositoryInMemory();
 
-        var usecase = new ShowRankingUseCase(
+        ShowRankingUseCase usecase = new ShowRankingUseCase(
                 roundRepository,
                 battleRepository,
                 accountRepository
@@ -41,11 +45,11 @@ public class ShowRankingUseCaseTest {
 
         TableAccount account = accountRepository.save("user@email.com", "password");
 
-        var output = usecase.handle();
+        ShowRakingOutput output = usecase.handle();
         assertThat(output).isNotNull();
         assertThat(output.getResult()).isNotEmpty();
 
-        var first = output.getResult().get(0);
+        Result first = output.getResult().get(0);
 
         assertThat(first.getScore()).isEqualTo(0);
         assertThat(first.getUserId()).isEqualTo(account.getId());
@@ -54,11 +58,11 @@ public class ShowRankingUseCaseTest {
 
     @Test
     public void deve_validar_ranking_sem_rounds(){
-        var roundRepository = new RoundRepositoryInMemory();
-        var battleRepository = new BattleRepositoryInMemory();
-        var accountRepository = new AccountRepositoryInMemory();
+        RoundRepository roundRepository = new RoundRepositoryInMemory();
+        BattleRepository battleRepository = new BattleRepositoryInMemory();
+        AccountRepository accountRepository = new AccountRepositoryInMemory();
 
-        var usecase = new ShowRankingUseCase(
+        ShowRankingUseCase usecase = new ShowRankingUseCase(
                 roundRepository,
                 battleRepository,
                 accountRepository
@@ -81,12 +85,12 @@ public class ShowRankingUseCaseTest {
 
     @Test
     public void deve_validar_ranking(){
-        var roundRepository = new RoundRepositoryInMemory();
-        var battleRepository = new BattleRepositoryInMemory();
-        var accountRepository = new AccountRepositoryInMemory();
-        var movieRepository = new MoviesRepositoryInMemory();
+        RoundRepository roundRepository = new RoundRepositoryInMemory();
+        BattleRepository battleRepository = new BattleRepositoryInMemory();
+        AccountRepository accountRepository = new AccountRepositoryInMemory();
+        MoviesRepository movieRepository = new MoviesRepositoryInMemory();
 
-        var usecase = new ShowRankingUseCase(
+        ShowRankingUseCase usecase = new ShowRankingUseCase(
                 roundRepository,
                 battleRepository,
                 accountRepository

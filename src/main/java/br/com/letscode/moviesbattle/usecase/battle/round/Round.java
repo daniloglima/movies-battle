@@ -8,17 +8,23 @@ import lombok.Getter;
 import java.util.Arrays;
 import java.util.List;
 import java.util.function.Function;
+import java.util.stream.Collectors;
 
 @Builder @Getter
 @AllArgsConstructor
 public class Round {
+
     private long battleId;
+
     private List<Item> items;
+
     private boolean answered;
+
     private boolean rightAnswer;
+
     public static Round of(TableRound table){
 
-        var isRight = (table.getRightAnswer() != null && table.getRightAnswer());
+        boolean isRight = (table.getRightAnswer() != null && table.getRightAnswer());
 
         return Round.builder()
                 .answered(table.getAnswered())
@@ -34,9 +40,9 @@ public class Round {
         );
     }
     public Round hydrateItems(Function<Long, Item> function){
-        var hydrated = getItems().stream()
+        List<Item> hydrated = getItems().stream()
                 .map((entry) -> function.apply(entry.getId()))
-                .toList();
+                .collect(Collectors.toList());
 
         return Round.builder()
                 .battleId(getBattleId())

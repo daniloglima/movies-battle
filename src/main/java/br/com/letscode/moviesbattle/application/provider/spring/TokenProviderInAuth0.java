@@ -28,11 +28,11 @@ public class TokenProviderInAuth0 implements TokenProvider {
         Algorithm algorithm = Algorithm.HMAC256(config.getSecretKey().getBytes());
 
         String accessToken = JWT.create()
-                .withSubject(data.identity())
+                .withSubject(data.getIdentity())
                 .withIssuedAt(new Date())
                 .withExpiresAt(LocalDateTime.now().plusHours(24).atZone(ZoneId.systemDefault()).toInstant())
                 .withIssuer("lets-code")
-                .withClaim("userId", data.userId())
+                .withClaim("userId", data.getUserId())
                 .sign(algorithm);
 
         return accessToken;
@@ -44,8 +44,8 @@ public class TokenProviderInAuth0 implements TokenProvider {
         JWTVerifier verifier = JWT.require(algorithm).build();
         DecodedJWT decoded = verifier.verify(token);
 
-        var identity = decoded.getSubject();
-        var userId = decoded.getClaim("userId").asLong();
+        String identity = decoded.getSubject();
+        Long userId = decoded.getClaim("userId").asLong();
 
         return new TokenData(userId, identity);
     }

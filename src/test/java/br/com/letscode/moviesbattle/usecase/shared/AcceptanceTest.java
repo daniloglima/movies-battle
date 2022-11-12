@@ -31,13 +31,10 @@ public class AcceptanceTest {
         return configure();
     }
 
-    private final String authRequest =
-            """
-                {
-                    "identity":"xyz@email.com",
-                    "password":"password"
-                }
-            """;
+    private final String authRequest = "{\n" +
+            "                    \"identity\":\"xyz@email.com\",\n" +
+            "                    \"password\":\"password\"\n" +
+            "                }";
 
     protected void registerAccount(){
 
@@ -50,7 +47,7 @@ public class AcceptanceTest {
     }
     protected void executeLoginWithAccount(){
 
-        var response = doUnsecureRequest()
+        SignInResponse response = doUnsecureRequest()
                 .body(authRequest)
                 .contentType(ContentType.JSON)
                 .when()
@@ -60,7 +57,7 @@ public class AcceptanceTest {
                 .extract()
                 .as(SignInResponse.class);
 
-        this.secureSpecification = configure().header("Authorization", "Bearer " + response.token());
+        this.secureSpecification = configure().header("Authorization", "Bearer " + response.getToken());
     }
 
 }
